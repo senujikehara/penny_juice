@@ -107,6 +107,18 @@ export default function Navbar({ activePage = 'home', onPageChange, cartCount = 
               </li>
             ))}
           </ul>
+
+          <div className="sidebar-logout-container">
+            <button
+              onClick={() => {
+                setSidebarOpen(false)
+                alert('Logged out successfully! 🔒')
+              }}
+              className="sidebar-logout-btn"
+            >
+              Log Out 🔓
+            </button>
+          </div>
         </aside>
       </div>
     </>

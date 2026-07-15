@@ -342,3 +342,34 @@
   }
 }
 
+.sidebar-logout-container {
+  margin-top: auto; /* push to the absolute bottom of flex space */
+  padding-top: 24px;
+  border-top: 2px dashed rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  background: white;
+  border: 1.5px solid #FF5252;
+  border-radius: var(--radius-sm);
+  color: #FF5252;
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sidebar-logout-btn:hover {
+  background: #FF5252;
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.2);
+  transform: translateY(-1px);
+}
+
