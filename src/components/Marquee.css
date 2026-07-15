@@ -1,0 +1,41 @@
+.marquee-section {
+  background: linear-gradient(135deg, var(--primary), #FF8C00);
+  padding: 16px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+.marquee-emoji {
+  font-size: 1.4rem;
+}
+
+.marquee-text {
+  font-weight: 800;
+  color: white;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.marquee-dot {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  margin-left: 10px;
+}

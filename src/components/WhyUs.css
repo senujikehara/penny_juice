@@ -1,0 +1,124 @@
+.whyus-section {
+  padding: 100px 0;
+  background: var(--bg-cream);
+  position: relative;
+  overflow: hidden;
+}
+
+.whyus-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.reason-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.reason-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+.reason-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.reason-icon {
+  font-size: 2rem;
+}
+
+.reason-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+
+.reason-desc {
+  font-size: 0.92rem;
+  color: var(--text-medium);
+  line-height: 1.7;
+}
+
+/* Banner */
+.whyus-banner {
+  background: linear-gradient(135deg, var(--primary), #FF8C00);
+  border-radius: var(--radius-lg);
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-glow);
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.banner-emoji {
+  font-size: 3rem;
+}
+
+.banner-left h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.banner-left p {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+}
+
+.banner-stats {
+  display: flex;
+  gap: 32px;
+}
+
+.banner-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-stat-num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: white;
+  line-height: 1;
+}
+
+.banner-stat-label {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.8);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 900px) {
+  .whyus-grid { grid-template-columns: repeat(2, 1fr); }
+  .whyus-banner { flex-direction: column; text-align: center; }
+  .banner-left { flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .whyus-grid { grid-template-columns: 1fr; }
+  .banner-stats { flex-wrap: wrap; justify-content: center; }
+}

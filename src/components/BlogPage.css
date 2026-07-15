@@ -1,0 +1,205 @@
+.blog-page-container {
+  padding: 140px 24px 80px;
+  min-height: 80vh;
+  background: linear-gradient(180deg, #FFFBF5 0%, #FFF4EA 100%);
+}
+
+.blog-page-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.blog-page-main-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--text-dark);
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.blog-page-subtitle {
+  color: var(--text-medium);
+  font-size: 1.15rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.blog-page-back-btn {
+  background: none;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  align-self: flex-start;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.1);
+}
+
+.blog-page-back-btn:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ==================== BLOG POSTS GRID ==================== */
+.blog-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.blog-post-card {
+  background: white;
+  border: 2px solid var(--post-color);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.01);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-sizing: border-box;
+}
+
+.blog-post-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.05);
+}
+
+.post-emoji-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 24px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.post-date {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+}
+
+.post-card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.45;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+  font-weight: 800;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 56px; /* align heights */
+}
+
+.post-summary {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-medium);
+  margin-bottom: 24px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-more-link {
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.blog-post-card:hover .read-more-link {
+  letter-spacing: 0.5px;
+}
+
+/* ==================== FULL POST VIEW ==================== */
+.full-blog-post {
+  max-width: 720px;
+  margin: 0 auto;
+  background: white;
+  padding: 48px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.02);
+  border: 1.5px solid rgba(255, 107, 53, 0.08);
+  box-sizing: border-box;
+}
+
+.post-meta-full {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.post-title-full {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1.35;
+  margin-bottom: 24px;
+}
+
+.post-emoji-big {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  margin: 20px auto 32px;
+  animation: float 4s ease-in-out infinite;
+}
+
+.post-body p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-medium);
+  margin-bottom: 20px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 992px) {
+  .blog-posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 650px) {
+  .blog-posts-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .blog-post-card {
+    padding: 28px 20px;
+  }
+  .full-blog-post {
+    padding: 28px 20px;
+  }
+  .post-title-full {
+    font-size: 1.8rem;
+  }
+}
