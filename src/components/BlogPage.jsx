@@ -30,7 +30,7 @@ const posts = [
     summary: 'Learn about USDA standards for school lunches and why Penny Juice is approved by over 5,000 schools nationwide.',
     content: 'USDA school nutrition guidelines are strict. School juices must be 100% fruit juice, without sweeteners. Penny Juice concentrate is fully school-approved, meeting and exceeding these standards for vitamin content per serving. Switching to Penny Juice allows schools to deliver high-quality nutrition to students cost-effectively. It is easy to store and prepare, making it the perfect beverage partner for educational institutions.',
     color: '#4CAF50',
-    emoji: '🏫',
+    emoji: '/ar3.png',
   },
 ]
 
