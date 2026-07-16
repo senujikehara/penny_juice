@@ -1,6 +1,6 @@
 import './CartDrawer.css'
 
-export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemoveItem, onClearCart, onShopClick }) {
+export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemoveItem, onClearCart, onShopClick, currentUser, onLoginClick }) {
   const subtotal = cart.reduce((acc, item) => {
     const priceNum = parseFloat(item.price.replace('$', ''))
     return acc + priceNum * item.qty
@@ -9,6 +9,20 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
   const shipping = subtotal > 50 || subtotal === 0 ? 0 : 9.99
   const discount = subtotal > 0 ? subtotal * 0.15 : 0 // 15% discount for prototype demo
   const total = subtotal - discount + shipping
+
+  const handleCheckout = () => {
+    if (!currentUser) {
+      alert('🔒 Please log in or register an account to proceed with your checkout!')
+      onClose()
+      if (onLoginClick) {
+        onLoginClick()
+      }
+    } else {
+      alert(`🎉 Thank you for your order, ${currentUser.name}! Checkout is successful. Your cart is saved in your profile session.`)
+      onClearCart()
+      onClose()
+    }
+  }
 
   if (!isOpen) return null
 
@@ -73,11 +87,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
               <div className="cart-checkout-actions">
                 <button
                   className="btn-primary checkout-btn"
-                  onClick={() => {
-                    alert('🎉 Thank you for trying the Penny Juice prototype! Checkout is successful.')
-                    onClearCart()
-                    onClose()
-                  }}
+                  onClick={handleCheckout}
                 >
                   Proceed to Checkout 🚀
                 </button>

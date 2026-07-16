@@ -137,6 +137,8 @@ function App() {
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
         onShopClick={() => setActivePage('shop')}
+        currentUser={currentUser}
+        onLoginClick={() => setLoginOpen(true)}
       />
 
       <LoginModal
