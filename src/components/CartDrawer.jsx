@@ -12,7 +12,6 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
 
   const handleCheckout = () => {
     if (!currentUser) {
-      alert('🔒 Please log in or register an account to proceed with your checkout!')
       onClose()
       if (onLoginClick) {
         onLoginClick()
