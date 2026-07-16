@@ -2,9 +2,9 @@ import { useState } from 'react'
 import './LoginModal.css'
 
 const DEFAULT_ACCOUNTS = [
-  { username: 'admin', password: 'admin123', name: 'Admin User' },
-  { username: 'user', password: 'user123', name: 'Regular User' },
-  { username: 'kid', password: 'kid123', name: 'Kid Family' },
+  { username: 'admin', password: 'admin123', name: 'Admin User', email: 'admin@pennyjuice.com' },
+  { username: 'user', password: 'user123', name: 'Regular User', email: 'user@pennyjuice.com' },
+  { username: 'kid', password: 'kid123', name: 'Kid Family', email: 'kid@pennyjuice.com' },
 ]
 
 export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUser, onLogout }) {
@@ -19,7 +19,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
     age: '',
     address: ''
   })
-  const [resetUsername, setResetUsername] = useState('')
+  const [resetEmail, setResetEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   
   const [accounts, setAccounts] = useState(() => {
@@ -44,17 +44,17 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
     e.preventDefault()
 
     if (isForgotPassword) {
-      // Mock Forgot Password Handler
+      // Forgot Password with Email Handler
       const exists = accounts.find(
-        (a) => a.username.toLowerCase() === resetUsername.toLowerCase()
+        (a) => a.email && a.email.toLowerCase() === resetEmail.toLowerCase()
       )
       if (exists) {
-        alert(`🔑 Password reset link generated! In a real app, it would be sent to the email associated with '${resetUsername}'.`);
+        alert(`🔑 Password reset link generated! In a real app, it would be sent to '${resetEmail}'.`);
       } else {
-        alert(`❌ Username '${resetUsername}' not found!`);
+        alert(`❌ Email address '${resetEmail}' not found in our records!`);
       }
       setIsForgotPassword(false)
-      setResetUsername('')
+      setResetEmail('')
       return
     }
 
@@ -189,18 +189,18 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
           <>
             <div className="login-header">
               <h2>Reset Password 🔑</h2>
-              <p>Enter your username to request a password reset.</p>
+              <p>Enter your email address to request a password reset.</p>
             </div>
             
             <form onSubmit={handleSubmit} className="login-form">
               <div className="form-field">
-                <label htmlFor="reset-user">Username</label>
+                <label htmlFor="reset-email">Email Address</label>
                 <input
-                  type="text"
-                  id="reset-user"
-                  value={resetUsername}
-                  onChange={(e) => setResetUsername(e.target.value)}
-                  placeholder="Enter your username"
+                  type="email"
+                  id="reset-email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
