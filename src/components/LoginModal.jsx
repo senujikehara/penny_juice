@@ -1,19 +1,72 @@
 import { useState } from 'react'
 import './LoginModal.css'
 
-export default function LoginModal({ isOpen, onClose }) {
+const DEFAULT_ACCOUNTS = [
+  { email: 'admin@pennyjuice.com', password: 'admin123', name: 'Admin User' },
+  { email: 'user@pennyjuice.com', password: 'user123', name: 'Regular User' },
+  { email: 'kid@pennyjuice.com', password: 'kid123', name: 'Kid Family' },
+]
+
+export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [formData, setFormData] = useState({ email: '', password: '', name: '' })
   const [submitted, setSubmitted] = useState(false)
+  
+  const [accounts, setAccounts] = useState(() => {
+    const saved = localStorage.getItem('penny_juice_accounts')
+    return saved ? JSON.parse(saved) : DEFAULT_ACCOUNTS
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      alert(isSignUp ? '🎉 Account created successfully!' : '🎉 Logged in successfully!')
-      onClose()
-    }, 1500)
+
+    if (isSignUp) {
+      // Sign Up Handler
+      const exists = accounts.find(
+        (a) => a.email.toLowerCase() === formData.email.toLowerCase()
+      )
+      if (exists) {
+        alert('❌ This email address is already registered!')
+        return
+      }
+
+      const newAccounts = [
+        ...accounts,
+        { email: formData.email, password: formData.password, name: formData.name },
+      ]
+      setAccounts(newAccounts)
+      localStorage.setItem('penny_juice_accounts', JSON.stringify(newAccounts))
+
+      setSubmitted(true)
+      setTimeout(() => {
+        setSubmitted(false)
+        alert('🎉 Account created successfully! You can now log in.')
+        setIsSignUp(false)
+        setFormData({ email: formData.email, password: '', name: '' })
+      }, 1500)
+
+    } else {
+      // Login Handler
+      const user = accounts.find(
+        (a) =>
+          a.email.toLowerCase() === formData.email.toLowerCase() &&
+          a.password === formData.password
+      )
+
+      if (user) {
+        setSubmitted(true)
+        setTimeout(() => {
+          setSubmitted(false)
+          alert(`🎉 Welcome back, ${user.name}! Logged in successfully.`)
+          if (onLoginSuccess) {
+            onLoginSuccess(user)
+          }
+          onClose()
+        }, 1500)
+      } else {
+        alert('❌ Invalid email or password. Try:\n- user@pennyjuice.com / user123\n- admin@pennyjuice.com / admin123')
+      }
+    }
   }
 
   if (!isOpen) return null
@@ -84,6 +137,14 @@ export default function LoginModal({ isOpen, onClose }) {
                 {isSignUp ? 'Log In' : 'Sign Up'}
               </button>
             </div>
+
+            {!isSignUp && (
+              <div className="login-demo-credentials">
+                <small>💡 Try demo accounts:</small>
+                <small>• <strong>user@pennyjuice.com</strong> (pass: <strong>user123</strong>)</small>
+                <small>• <strong>admin@pennyjuice.com</strong> (pass: <strong>admin123</strong>)</small>
+              </div>
+            )}
           </>
         ) : (
           <div className="login-success">

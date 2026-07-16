@@ -10,7 +10,15 @@ const navLinks = [
   { label: 'Contact', page: 'contact' },
 ]
 
-export default function Navbar({ activePage = 'home', onPageChange, cartCount = 0, onCartClick, onLoginClick }) {
+export default function Navbar({
+  activePage = 'home',
+  onPageChange,
+  cartCount = 0,
+  onCartClick,
+  onLoginClick,
+  currentUser,
+  onLogout,
+}) {
   const [scrolled, setScrolled] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -73,12 +81,18 @@ export default function Navbar({ activePage = 'home', onPageChange, cartCount = 
               {cartCount > 0 && <span className="nav-orange-badge">{cartCount}</span>}
             </button>
 
-            <button onClick={onLoginClick} className="nav-icon-btn" aria-label="Login">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="nav-icon-svg">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </button>
+            {currentUser ? (
+              <div className="navbar-user-info-badge" onClick={onLoginClick}>
+                <span className="navbar-user-greeting">Hi, {currentUser.name.split(' ')[0]} 👋</span>
+              </div>
+            ) : (
+              <button onClick={onLoginClick} className="nav-icon-btn" aria-label="Login">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="nav-icon-svg">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </button>
+            )}
           </div>
 
         </div>
@@ -88,7 +102,7 @@ export default function Navbar({ activePage = 'home', onPageChange, cartCount = 
       <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={() => setSidebarOpen(false)}>
         <aside className="sidebar-nav-left" onClick={(e) => e.stopPropagation()}>
           <div className="sidebar-header">
-            <h3>Side Bar</h3>
+            <h3>{currentUser ? `Hi, ${currentUser.name.split(' ')[0]} 👋` : 'Side Bar'}</h3>
             <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)}>×</button>
           </div>
           
@@ -108,17 +122,21 @@ export default function Navbar({ activePage = 'home', onPageChange, cartCount = 
             ))}
           </ul>
 
-          <div className="sidebar-logout-container">
-            <button
-              onClick={() => {
-                setSidebarOpen(false)
-                alert('Logged out successfully! 🔒')
-              }}
-              className="sidebar-logout-btn"
-            >
-              Log Out 🔓
-            </button>
-          </div>
+          {currentUser && (
+            <div className="sidebar-logout-container">
+              <button
+                onClick={() => {
+                  setSidebarOpen(false)
+                  if (onLogout) {
+                    onLogout()
+                  }
+                }}
+                className="sidebar-logout-btn"
+              >
+                Log Out 🔓
+              </button>
+            </div>
+          )}
         </aside>
       </div>
     </>

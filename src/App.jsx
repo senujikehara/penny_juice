@@ -22,6 +22,12 @@ function App() {
   const [cartOpen, setCartOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
 
+  // Current logged in user (persists in localStorage for prototype demo)
+  const [currentUser, setCurrentUser] = useState(() => {
+    const saved = localStorage.getItem('penny_juice_current_user')
+    return saved ? JSON.parse(saved) : null
+  })
+
   // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
@@ -56,6 +62,17 @@ function App() {
   const handleClearCart = () => {
     setCart([])
   };
+
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user)
+    localStorage.setItem('penny_juice_current_user', JSON.stringify(user))
+  }
+
+  const handleLogout = () => {
+    setCurrentUser(null)
+    localStorage.removeItem('penny_juice_current_user')
+    alert("Logged out successfully! 🔒")
+  }
 
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0)
 
@@ -98,6 +115,8 @@ function App() {
         cartCount={cartCount}
         onCartClick={() => setCartOpen(true)}
         onLoginClick={() => setLoginOpen(true)}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
       
       <main className="main-content">
@@ -122,6 +141,7 @@ function App() {
       <LoginModal
         isOpen={loginOpen}
         onClose={() => setLoginOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
       />
     </div>
   )
