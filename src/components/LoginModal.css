@@ -10,6 +10,18 @@
   padding: 20px;
 }
 
+.login-logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.login-modal-logo {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
 .login-modal {
   background: white;
   width: 100%;

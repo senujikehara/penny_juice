@@ -81,7 +81,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
           onClose()
         }, 1500)
       } else {
-        alert('❌ Invalid username or password. Try:\n- user / user123\n- admin / admin123')
+        alert('❌ Invalid username or password.')
       }
     }
   }
@@ -91,7 +91,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="login-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>×</button>
+        
+        {/* Top Logo instead of close button */}
+        <div className="login-logo-container">
+          <img src="/Penny_juice_logo.png" alt="Penny Juice Logo" className="login-modal-logo" />
+        </div>
 
         {currentUser ? (
           <div className="profile-logged-in-view">
@@ -236,14 +240,6 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                 </>
               )}
             </div>
-
-            {!isSignUp && (
-              <div className="login-demo-credentials">
-                <small>💡 Try demo accounts:</small>
-                <small>• Username: <strong>user</strong> (pass: <strong>user123</strong>)</small>
-                <small>• Username: <strong>admin</strong> (pass: <strong>admin123</strong>)</small>
-              </div>
-            )}
           </>
         )}
       </div>
