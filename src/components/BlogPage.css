@@ -173,6 +173,25 @@
   animation: float 4s ease-in-out infinite;
 }
 
+.post-featured-image-container {
+  width: 100%;
+  height: 340px;
+  background: #fdfaf6;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: 28px 0 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  border: 1.5px solid rgba(255, 107, 53, 0.08);
+}
+
+.post-featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+  display: block;
+}
+
 .post-body p {
   font-size: 1.05rem;
   line-height: 1.8;

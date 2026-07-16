@@ -76,9 +76,15 @@ export default function BlogPage() {
             <h1 className="post-title-full" style={{ color: selectedPost.color }}>
               {selectedPost.title}
             </h1>
-            <div className="post-emoji-big" style={{ background: `${selectedPost.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-              {renderEmojiOrImage(selectedPost.emoji, selectedPost.title, 'post-emoji-big-custom')}
-            </div>
+            {selectedPost.emoji.startsWith('/') ? (
+              <div className="post-featured-image-container">
+                <img src={selectedPost.emoji} alt={selectedPost.title} className="post-featured-image" />
+              </div>
+            ) : (
+              <div className="post-emoji-big" style={{ background: `${selectedPost.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                {selectedPost.emoji}
+              </div>
+            )}
             <div className="post-body">
               <p>{selectedPost.content}</p>
               <p>
