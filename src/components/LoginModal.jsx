@@ -188,7 +188,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
         ) : isForgotPassword ? (
           <>
             <div className="login-header">
-              <h2>Reset Password 🔑</h2>
+              <h2>Reset Password</h2>
               <p>Enter your email address to request a password reset.</p>
             </div>
             
