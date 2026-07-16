@@ -39,28 +39,30 @@
   margin-top: 8px;
 }
 
-.login-toggle {
-  text-align: center;
-  font-size: 0.88rem;
-  color: var(--text-medium);
+.login-links-row {
   display: flex;
-  justify-content: center;
-  gap: 6px;
-  font-weight: 700;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 18px;
+  width: 100%;
 }
 
-.login-toggle button {
+.login-action-link {
   background: none;
   border: none;
-  color: var(--primary);
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: underline;
+  color: var(--text-dark);
   font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  transition: color 0.2s ease;
 }
 
-.login-toggle button:hover {
-  color: var(--primary-dark);
+.login-action-link:hover {
+  color: var(--primary);
 }
 
 .login-success {
