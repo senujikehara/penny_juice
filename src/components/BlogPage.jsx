@@ -20,7 +20,7 @@ const posts = [
     summary: 'Staying hydrated doesn\'t have to be boring. Read our tips on fun juice popsicle recipes and active hydration hacks.',
     content: 'Keeping children hydrated during summer heat can be challenging. A fun way is to freeze Penny Juice concentrate mixed with water in popsicle molds for a delicious, healthy icy treat! You can also dilute our juice with sparkling mineral water to make a sparkling mocktail kids will love, or play hydration games with colorful reusable cups. These alternatives keep hydration levels up without high-fructose corn syrups.',
     color: '#9C27B0',
-    emoji: '🍇',
+    emoji: '/ar2.png',
   },
   {
     id: 3,
