@@ -142,6 +142,8 @@ function App() {
         isOpen={loginOpen}
         onClose={() => setLoginOpen(false)}
         onLoginSuccess={handleLoginSuccess}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
     </div>
   )

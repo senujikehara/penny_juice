@@ -7,7 +7,7 @@ const DEFAULT_ACCOUNTS = [
   { username: 'kid', password: 'kid123', name: 'Kid Family' },
 ]
 
-export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
+export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUser, onLogout }) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [isForgotPassword, setIsForgotPassword] = useState(false)
   const [formData, setFormData] = useState({ username: '', password: '', name: '' })
@@ -93,7 +93,47 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
       <div className="login-modal" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>×</button>
 
-        {submitted ? (
+        {currentUser ? (
+          <div className="profile-logged-in-view">
+            <div className="login-header">
+              <h2>Account Details 👤</h2>
+              <p>You are currently logged in.</p>
+            </div>
+            
+            <div className="profile-user-card" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              background: 'rgba(255, 107, 53, 0.05)',
+              padding: '16px',
+              borderRadius: 'var(--radius-sm)',
+              border: '1.5px solid rgba(255, 107, 53, 0.15)',
+              marginTop: '16px',
+              textAlign: 'left'
+            }}>
+              <span className="profile-user-avatar" style={{ fontSize: '2.5rem' }}>👤</span>
+              <div className="profile-user-details">
+                <h3 style={{ margin: 0, color: 'var(--text-dark)' }}>{currentUser.name}</h3>
+                <p style={{ margin: '4px 0 0', color: 'var(--text-medium)', fontSize: '0.9rem' }}>
+                  Username: <strong>@{currentUser.username}</strong>
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                if (onLogout) {
+                  onLogout()
+                }
+                onClose()
+              }}
+              className="btn-primary login-submit-btn"
+              style={{ background: '#FF5252', borderColor: '#FF5252', marginTop: '24px', width: '100%' }}
+            >
+              Log Out 🔓
+            </button>
+          </div>
+        ) : submitted ? (
           <div className="login-success">
             <span className="success-emoji">✨</span>
             <h2>{isSignUp ? 'Registering Account...' : 'Logging In...'}</h2>
