@@ -111,7 +111,6 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
         setSubmitted(true)
         setTimeout(() => {
           setSubmitted(false)
-          alert(`🎉 Welcome back, ${user.name}! Logged in successfully.`)
           if (onLoginSuccess) {
             onLoginSuccess(user)
           }
