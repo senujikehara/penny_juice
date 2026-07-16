@@ -115,3 +115,30 @@
 .login-demo-credentials small strong {
   color: var(--text-dark);
 }
+
+/* ==================== REGISTER PAGE GRID LAYOUT ==================== */
+.login-modal {
+  transition: max-width 0.3s ease;
+}
+
+.login-modal.register-wide {
+  max-width: 620px;
+}
+
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
+.form-field-spacer {
+  display: block;
+}
+
+@media (max-width: 580px) {
+  .form-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

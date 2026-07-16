@@ -10,7 +10,15 @@ const DEFAULT_ACCOUNTS = [
 export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUser, onLogout }) {
   const [isSignUp, setIsSignUp] = useState(false)
   const [isForgotPassword, setIsForgotPassword] = useState(false)
-  const [formData, setFormData] = useState({ username: '', password: '', name: '' })
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    name: '',
+    email: '',
+    contact: '',
+    age: '',
+    address: ''
+  })
   const [resetUsername, setResetUsername] = useState('')
   const [submitted, setSubmitted] = useState(false)
   
@@ -18,6 +26,19 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
     const saved = localStorage.getItem('penny_juice_accounts')
     return saved ? JSON.parse(saved) : DEFAULT_ACCOUNTS
   })
+
+  const handleToggleSignUp = (val) => {
+    setIsSignUp(val)
+    setFormData({
+      username: '',
+      password: '',
+      name: '',
+      email: '',
+      contact: '',
+      age: '',
+      address: ''
+    })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -49,7 +70,15 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
 
       const newAccounts = [
         ...accounts,
-        { username: formData.username, password: formData.password, name: formData.name },
+        {
+          username: formData.username,
+          password: formData.password,
+          name: formData.name,
+          email: formData.email,
+          contact: formData.contact,
+          age: formData.age,
+          address: formData.address
+        },
       ]
       setAccounts(newAccounts)
       localStorage.setItem('penny_juice_accounts', JSON.stringify(newAccounts))
@@ -59,7 +88,15 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
         setSubmitted(false)
         alert('🎉 Account registered successfully! You can now log in.')
         setIsSignUp(false)
-        setFormData({ username: formData.username, password: '', name: '' })
+        setFormData({
+          username: formData.username,
+          password: '',
+          name: '',
+          email: '',
+          contact: '',
+          age: '',
+          address: ''
+        })
       }, 1500)
 
     } else {
@@ -90,7 +127,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="login-modal" onClick={(e) => e.stopPropagation()}>
+      <div className={`login-modal ${isSignUp ? 'register-wide' : ''}`} onClick={(e) => e.stopPropagation()}>
         
         {/* Top Logo instead of close button */}
         <div className="login-logo-container">
@@ -121,6 +158,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                 <p style={{ margin: '4px 0 0', color: 'var(--text-medium)', fontSize: '0.9rem' }}>
                   Username: <strong>@{currentUser.username}</strong>
                 </p>
+                {currentUser.email && (
+                  <p style={{ margin: '4px 0 0', color: 'var(--text-light)', fontSize: '0.82rem' }}>
+                    Email: {currentUser.email}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -181,43 +223,124 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
             </div>
 
             <form onSubmit={handleSubmit} className="login-form">
-              {isSignUp && (
-                <div className="form-field">
-                  <label htmlFor="login-name">Your Name</label>
-                  <input
-                    type="text"
-                    id="login-name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Enter your name"
-                    required
-                  />
-                </div>
+              {isSignUp ? (
+                <>
+                  <div className="form-grid-2col">
+                    <div className="form-field">
+                      <label htmlFor="reg-name">Name</label>
+                      <input
+                        type="text"
+                        id="reg-name"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Enter name"
+                        required
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label htmlFor="reg-user">Username</label>
+                      <input
+                        type="text"
+                        id="reg-user"
+                        value={formData.username}
+                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                        placeholder="Enter username"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-grid-2col">
+                    <div className="form-field">
+                      <label htmlFor="reg-email">Email</label>
+                      <input
+                        type="email"
+                        id="reg-email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="Enter email address"
+                        required
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label htmlFor="reg-contact">Contact Number</label>
+                      <input
+                        type="tel"
+                        id="reg-contact"
+                        value={formData.contact}
+                        onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                        placeholder="Enter contact number"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-grid-2col">
+                    <div className="form-field">
+                      <label htmlFor="reg-age">Age</label>
+                      <input
+                        type="text"
+                        id="reg-age"
+                        value={formData.age}
+                        onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                        placeholder="Enter age"
+                        required
+                      />
+                    </div>
+                    <div className="form-field-spacer" />
+                  </div>
+
+                  <div className="form-field">
+                    <label htmlFor="reg-address">Address</label>
+                    <input
+                      type="text"
+                      id="reg-address"
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      placeholder="Enter address"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label htmlFor="reg-pass">Password</label>
+                    <input
+                      type="password"
+                      id="reg-pass"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      placeholder="Enter password"
+                      required
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="form-field">
+                    <label htmlFor="login-user">Username</label>
+                    <input
+                      type="text"
+                      id="login-user"
+                      value={formData.username}
+                      onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                      placeholder="Enter your username"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-field">
+                    <label htmlFor="login-pass">Password</label>
+                    <input
+                      type="password"
+                      id="login-pass"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      placeholder="Enter password"
+                      required
+                    />
+                  </div>
+                </>
               )}
-
-              <div className="form-field">
-                <label htmlFor="login-user">Username</label>
-                <input
-                  type="text"
-                  id="login-user"
-                  value={formData.username}
-                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                  placeholder="Enter your username"
-                  required
-                />
-              </div>
-
-              <div className="form-field">
-                <label htmlFor="login-pass">Password</label>
-                <input
-                  type="password"
-                  id="login-pass"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Enter password"
-                  required
-                />
-              </div>
 
               <button type="submit" className="btn-primary login-submit-btn">
                 {isSignUp ? 'Register' : 'Log in'}
@@ -226,7 +349,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
 
             <div className="login-links-row">
               {isSignUp ? (
-                <button className="login-action-link" onClick={() => setIsSignUp(false)}>
+                <button className="login-action-link" onClick={() => handleToggleSignUp(false)}>
                   Already have an Account? Log in
                 </button>
               ) : (
@@ -234,7 +357,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                   <button className="login-action-link" onClick={() => setIsForgotPassword(true)}>
                     Forget Password ?
                   </button>
-                  <button className="login-action-link" onClick={() => setIsSignUp(true)}>
+                  <button className="login-action-link" onClick={() => handleToggleSignUp(true)}>
                     Register new Account ?
                   </button>
                 </>
