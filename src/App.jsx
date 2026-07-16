@@ -136,6 +136,7 @@ function App() {
         onUpdateQty={handleUpdateQty}
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
+        onShopClick={() => setActivePage('shop')}
       />
 
       <LoginModal

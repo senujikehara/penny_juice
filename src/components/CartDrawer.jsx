@@ -1,6 +1,6 @@
 import './CartDrawer.css'
 
-export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemoveItem, onClearCart }) {
+export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemoveItem, onClearCart, onShopClick }) {
   const subtotal = cart.reduce((acc, item) => {
     const priceNum = parseFloat(item.price.replace('$', ''))
     return acc + priceNum * item.qty
@@ -25,7 +25,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
             <span className="cart-empty-icon">🥤</span>
             <h3>Your cart is empty!</h3>
             <p>Add some delicious flavors to get started.</p>
-            <button className="btn-primary" onClick={onClose}>Shop Flavors</button>
+            <button className="btn-primary" onClick={() => { onClose(); if (onShopClick) onShopClick(); }}>Shop Flavors</button>
           </div>
         ) : (
           <>
