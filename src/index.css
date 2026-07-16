@@ -46,9 +46,13 @@ body {
 }
 
 /* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-cream); }
-::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+html {
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 /* ===== UTILITIES ===== */
 .container {
