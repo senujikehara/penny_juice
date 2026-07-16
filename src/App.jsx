@@ -71,7 +71,6 @@ function App() {
   const handleLogout = () => {
     setCurrentUser(null)
     localStorage.removeItem('penny_juice_current_user')
-    alert("Logged out successfully! 🔒")
   }
 
   const cartCount = cart.reduce((acc, item) => acc + item.qty, 0)
