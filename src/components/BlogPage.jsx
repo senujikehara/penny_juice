@@ -10,7 +10,7 @@ const posts = [
     summary: 'Discover how 100% pure juice concentrates provide crucial daily vitamins and help support healthy development in children.',
     content: 'Juice can be a healthy part of a child\'s diet when served correctly. Pediatricians recommend 100% fruit juice without added sugar. Our juices are packed with Vitamin C to support toddlers\' growing immune systems, and they offer vitamins A and B, which aid healthy brain development and overall cell growth. By choosing 100% natural options, you ensure your child gets the vitamins they need without any toxic additives.',
     color: '#FF6B35',
-    emoji: '🍊',
+    emoji: '/ar1.png',
   },
   {
     id: 2,
@@ -37,6 +37,20 @@ const posts = [
 export default function BlogPage() {
   const [selectedPost, setSelectedPost] = useState(null)
 
+  const renderEmojiOrImage = (emoji, title, className) => {
+    if (emoji.startsWith('/')) {
+      return (
+        <img
+          src={emoji}
+          alt={title}
+          className={`${className}-img`}
+          style={{ width: '70%', height: '70%', objectFit: 'contain', display: 'block' }}
+        />
+      )
+    }
+    return emoji
+  }
+
   return (
     <div className="blog-page-container container">
       <div className="blog-page-header">
@@ -62,8 +76,8 @@ export default function BlogPage() {
             <h1 className="post-title-full" style={{ color: selectedPost.color }}>
               {selectedPost.title}
             </h1>
-            <div className="post-emoji-big" style={{ background: `${selectedPost.color}15` }}>
-              {selectedPost.emoji}
+            <div className="post-emoji-big" style={{ background: `${selectedPost.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              {renderEmojiOrImage(selectedPost.emoji, selectedPost.title, 'post-emoji-big-custom')}
             </div>
             <div className="post-body">
               <p>{selectedPost.content}</p>
@@ -82,8 +96,8 @@ export default function BlogPage() {
                 onClick={() => setSelectedPost(post)}
                 style={{ '--post-color': post.color }}
               >
-                <div className="post-emoji-wrap" style={{ background: `${post.color}15` }}>
-                  {post.emoji}
+                <div className="post-emoji-wrap" style={{ background: `${post.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                  {renderEmojiOrImage(post.emoji, post.title, 'post-emoji-wrap-custom')}
                 </div>
                 <span className="post-date">{post.date}</span>
                 <h3 className="post-card-title">{post.title}</h3>
