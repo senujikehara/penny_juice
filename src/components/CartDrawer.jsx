@@ -1,6 +1,26 @@
+import { useState, useEffect } from 'react'
 import './CartDrawer.css'
 
-export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemoveItem, onClearCart, onShopClick, currentUser, onLoginClick }) {
+export default function CartDrawer({
+  isOpen,
+  onClose,
+  cart,
+  onUpdateQty,
+  onRemoveItem,
+  onClearCart,
+  onShopClick,
+  currentUser,
+  onLoginClick
+}) {
+  const [checkoutSuccess, setCheckoutSuccess] = useState(false)
+
+  // Reset success state when drawer is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setCheckoutSuccess(false)
+    }
+  }, [isOpen])
+
   const subtotal = cart.reduce((acc, item) => {
     const priceNum = parseFloat(item.price.replace('$', ''))
     return acc + priceNum * item.qty
@@ -17,9 +37,7 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
         onLoginClick()
       }
     } else {
-      alert(`🎉 Thank you for your order, ${currentUser.name}! Checkout is successful. Your cart is saved in your profile session.`)
-      onClearCart()
-      onClose()
+      setCheckoutSuccess(true)
     }
   }
 
@@ -33,7 +51,18 @@ export default function CartDrawer({ isOpen, onClose, cart, onUpdateQty, onRemov
           <button className="cart-close-btn" onClick={onClose}>×</button>
         </div>
 
-        {cart.length === 0 ? (
+        {checkoutSuccess ? (
+          <div className="cart-empty checkout-success-screen">
+            <span className="cart-empty-icon" style={{ fontSize: '4rem', display: 'block', animation: 'bounce-in 0.5s ease' }}>🎉</span>
+            <h3 style={{ color: 'var(--primary)', marginTop: '20px', fontSize: '1.4rem' }}>Checkout Successful!</h3>
+            <p style={{ maxWidth: '280px', margin: '12px auto 24px', lineHeight: '1.6', fontSize: '0.92rem', color: 'var(--text-medium)' }}>
+              Thank you for your order, <strong>{currentUser?.name}</strong>! Your order details have been saved to your profile session.
+            </p>
+            <button className="btn-primary" onClick={() => { onClearCart(); onClose(); }} style={{ width: '100%', maxWidth: '200px' }}>
+              Continue Shopping
+            </button>
+          </div>
+        ) : cart.length === 0 ? (
           <div className="cart-empty">
             <span className="cart-empty-icon">🥤</span>
             <h3>Your cart is empty!</h3>
