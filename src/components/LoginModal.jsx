@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './LoginModal.css'
 
 const DEFAULT_ACCOUNTS = [
@@ -21,6 +21,21 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
   })
   const [resetEmail, setResetEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [statusMessage, setStatusMessage] = useState(null)
+
+  const showStatus = (text, type = 'error') => {
+    setStatusMessage({ text, type });
+    // Auto-clear message after 5 seconds
+    setTimeout(() => {
+      setStatusMessage(null);
+    }, 5000);
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setStatusMessage(null);
+    }
+  }, [isOpen]);
   
   const [accounts, setAccounts] = useState(() => {
     const saved = localStorage.getItem('penny_juice_accounts')
@@ -28,6 +43,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
   })
 
   const handleToggleSignUp = (val) => {
+    setStatusMessage(null)
     setIsSignUp(val)
     setFormData({
       username: '',
@@ -42,6 +58,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setStatusMessage(null)
 
     if (isForgotPassword) {
       // Forgot Password with Email Handler
@@ -49,22 +66,33 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
         (a) => a.email && a.email.toLowerCase() === resetEmail.toLowerCase()
       )
       if (exists) {
-        alert(`🔑 Password reset link generated! In a real app, it would be sent to '${resetEmail}'.`);
+        showStatus(`🔑 Password reset link generated! In a real app, it would be sent to '${resetEmail}'.`, 'success');
+        setResetEmail('')
       } else {
-        alert(`❌ Email address '${resetEmail}' not found in our records!`);
+        showStatus(`❌ Email address '${resetEmail}' not found in our records!`, 'error');
       }
-      setIsForgotPassword(false)
-      setResetEmail('')
       return
     }
 
     if (isSignUp) {
+      // Validation: Age must be 2 or 3 digits
+      if (!/^\d{2,3}$/.test(formData.age)) {
+        showStatus('❌ Age must be 2 or 3 digits long!', 'error');
+        return;
+      }
+
+      // Validation: Contact number must be exactly 11 digits
+      if (!/^\d{11}$/.test(formData.contact)) {
+        showStatus('❌ Contact number must be exactly 11 digits long!', 'error');
+        return;
+      }
+
       // Sign Up Handler
       const exists = accounts.find(
         (a) => a.username.toLowerCase() === formData.username.toLowerCase()
       )
       if (exists) {
-        alert('❌ This username is already registered!')
+        showStatus('❌ This username is already registered!', 'error')
         return
       }
 
@@ -86,7 +114,6 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
       setSubmitted(true)
       setTimeout(() => {
         setSubmitted(false)
-        alert('🎉 Account registered successfully! You can now log in.')
         setIsSignUp(false)
         setFormData({
           username: formData.username,
@@ -97,6 +124,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
           age: '',
           address: ''
         })
+        showStatus('🎉 Account registered successfully! You can now log in.', 'success')
       }, 1500)
 
     } else {
@@ -117,7 +145,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
           onClose()
         }, 1500)
       } else {
-        alert('❌ Invalid username or password.')
+        showStatus('❌ Invalid username or password.', 'error')
       }
     }
   }
@@ -132,6 +160,12 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
         <div className="login-logo-container">
           <img src="/Penny_juice_logo.png" alt="Penny Juice Logo" className="login-modal-logo" />
         </div>
+
+        {statusMessage && (
+          <div className={`modal-status-message ${statusMessage.type}`}>
+            {statusMessage.text}
+          </div>
+        )}
 
         {currentUser ? (
           <div className="profile-logged-in-view">
@@ -210,7 +244,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
             </form>
 
             <div className="login-links-row">
-              <button className="login-action-link" onClick={() => setIsForgotPassword(false)}>
+              <button className="login-action-link" onClick={() => { setStatusMessage(null); setIsForgotPassword(false); }}>
                 Back to Login
               </button>
             </div>
@@ -267,8 +301,13 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                         type="tel"
                         id="reg-contact"
                         value={formData.contact}
-                        onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                        placeholder="Enter contact number"
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '');
+                          if (val.length <= 11) {
+                            setFormData({ ...formData, contact: val });
+                          }
+                        }}
+                        placeholder="Enter 11-digit contact number"
                         required
                       />
                     </div>
@@ -281,8 +320,13 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                         type="text"
                         id="reg-age"
                         value={formData.age}
-                        onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                        placeholder="Enter age"
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, '');
+                          if (val.length <= 3) {
+                            setFormData({ ...formData, age: val });
+                          }
+                        }}
+                        placeholder="Enter 2-3 digit age"
                         required
                       />
                     </div>
@@ -353,7 +397,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, currentUse
                 </button>
               ) : (
                 <>
-                  <button className="login-action-link" onClick={() => setIsForgotPassword(true)}>
+                  <button className="login-action-link" onClick={() => { setStatusMessage(null); setIsForgotPassword(true); }}>
                     Forget Password ?
                   </button>
                   <button className="login-action-link" onClick={() => handleToggleSignUp(true)}>
